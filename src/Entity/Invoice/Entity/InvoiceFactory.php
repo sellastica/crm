@@ -16,6 +16,7 @@ class InvoiceFactory extends EntityFactory
 	 */
 	public function doInitialize(IEntity $entity)
 	{
+		$entity->setRelationService(new InvoiceRelations($entity, $this->em));
 	}
 
 	/**
