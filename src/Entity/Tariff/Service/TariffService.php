@@ -36,6 +36,20 @@ class TariffService
 	}
 
 	/**
+	 * @param array $filter
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return \Sellastica\Crm\Entity\Tariff\Entity\TariffCollection|\Sellastica\Crm\Entity\Tariff\Entity\Tariff[]
+	 */
+	public function findBy(
+		array $filter,
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Crm\Entity\Tariff\Entity\TariffCollection
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Tariff\Entity\Tariff::class)
+			->findBy($filter, $configuration);
+	}
+
+	/**
 	 * @param \Sellastica\App\Entity\App $app
 	 * @return \Sellastica\Crm\Entity\Tariff\Entity\Tariff|IEntity|null
 	 */
@@ -88,42 +102,9 @@ class TariffService
 
 	/**
 	 * @param \Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff
-	 * @param string|null $productClass
-	 * @return bool
-	 */
-	public function canBeSet(
-		\Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff,
-		string $productClass = null
-	): bool
-	{
-		//products
-		if ($productClass
-			&& $tariff->getProducts() !== null) {
-			$currentProductsCount = $this->em->getRepository($productClass)
-				->findCount();
-			$productsOk = $currentProductsCount <= $tariff->getProducts();
-		} else {
-			$productsOk = true;
-		}
-
-		//customers
-		if ($tariff->getCustomers() !== null) {
-			$currentCustomersCount = $this->em->getRepository(\Integroid\Entity\Product\Entity\AbstractProduct::class)
-				->findCount();
-			$customersOk = $currentCustomersCount <= $tariff->getCustomers();
-		} else {
-			$customersOk = true;
-		}
-
-		return $productsOk && $customersOk;
-	}
-
-	/**
-	 * @param \Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff
 	 * @param \Sellastica\Crm\Model\AccountingPeriod $period
 	 * @param \DateTime|null $validFrom
 	 * @param \Sellastica\Project\Entity\Project $project
-	 * @throws \InvalidArgumentException
 	 */
 	public function setTariff(
 		\Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff,
@@ -132,10 +113,6 @@ class TariffService
 		\DateTime $validFrom = null
 	)
 	{
-		if (!$this->canBeSet($tariff)) {
-			throw new \InvalidArgumentException(sprintf('Tariff "%s" cannot be choosed', $tariff->getTitle()));
-		}
-
 		$tariffHistory = $this->historyService->createNewHistory(
 			$tariff,
 			$project,

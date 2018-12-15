@@ -21,17 +21,32 @@ class TariffHistoryService
 	}
 
 	/**
-	 * @param \Sellastica\Project\Entity\Project $project
+	 * @param array $filter
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistoryCollection|TariffHistory[]
+	 */
+	public function findBy(
+		array $filter,
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistoryCollection
+	{
+		return $this->em->getRepository(TariffHistory::class)
+			->findBy($filter, $configuration);
+	}
+
+	/**
 	 * @param \Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff
+	 * @param \Sellastica\Project\Entity\Project $project
+	 * @param string $title
 	 * @param \DateTime|null $validFrom
 	 * @param \DateTime|null $validTill
 	 * @param \Sellastica\Crm\Model\AccountingPeriod $period
-	 * @return \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory
-	 * @throws \InvalidArgumentException
+	 * @return TariffHistory
 	 */
 	public function createNewHistory(
 		\Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff,
 		\Sellastica\Project\Entity\Project $project,
+		string $title,
 		\DateTime $validFrom,
 		\DateTime $validTill = null,
 		\Sellastica\Crm\Model\AccountingPeriod $period = null
@@ -42,9 +57,9 @@ class TariffHistoryService
 			$project->getId(),
 			$tariff->getApplicationId(),
 			$tariff->getId(),
+			$title,
 			$validFrom
-		)
-			->accountingPeriod($period)
+		)->accountingPeriod($period)
 			->validTill($validTill)
 			->build();
 		$this->em->persist($newHistory);
@@ -69,7 +84,7 @@ class TariffHistoryService
 	/**
 	 * @param \Sellastica\App\Entity\App $app
 	 * @param \Sellastica\Project\Entity\Project $project
-	 * @return \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory|IEntity|null
+	 * @return TariffHistory|IEntity|null
 	 */
 	public function getCurrentHistory(
 		\Sellastica\App\Entity\App $app,

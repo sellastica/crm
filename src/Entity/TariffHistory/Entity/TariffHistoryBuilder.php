@@ -1,9 +1,9 @@
 <?php
 namespace Sellastica\Crm\Entity\TariffHistory\Entity;
 
-use Sellastica\Crm\Model\AccountingPeriod;
 use Sellastica\Entity\IBuilder;
 use Sellastica\Entity\TBuilder;
+use Sellastica\Crm\Model\AccountingPeriod;
 
 /**
  * @see TariffHistory
@@ -18,31 +18,36 @@ class TariffHistoryBuilder implements IBuilder
 	private $applicationId;
 	/** @var int */
 	private $tariffId;
+	/** @var string */
+	private $title;
 	/** @var \DateTime */
 	private $validFrom;
 	/** @var \DateTime|null */
 	private $validTill;
 	/** @var AccountingPeriod|null */
 	private $accountingPeriod;
-	/** @var bool */
-	private $trial;
+	/** @var int|null */
+	private $invoiceId;
 
 	/**
 	 * @param int $projectId
 	 * @param int $applicationId
 	 * @param int $tariffId
+	 * @param string $title
 	 * @param \DateTime $validFrom
 	 */
 	public function __construct(
 		int $projectId,
 		int $applicationId,
 		int $tariffId,
+		string $title,
 		\DateTime $validFrom
 	)
 	{
 		$this->projectId = $projectId;
 		$this->applicationId = $applicationId;
 		$this->tariffId = $tariffId;
+		$this->title = $title;
 		$this->validFrom = $validFrom;
 	}
 
@@ -68,6 +73,14 @@ class TariffHistoryBuilder implements IBuilder
 	public function getTariffId(): int
 	{
 		return $this->tariffId;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string
+	{
+		return $this->title;
 	}
 
 	/**
@@ -105,7 +118,7 @@ class TariffHistoryBuilder implements IBuilder
 	}
 
 	/**
-	 * @param \Sellastica\Crm\Model\AccountingPeriod|null $accountingPeriod
+	 * @param AccountingPeriod|null $accountingPeriod
 	 * @return $this
 	 */
 	public function accountingPeriod(AccountingPeriod $accountingPeriod = null)
@@ -115,20 +128,20 @@ class TariffHistoryBuilder implements IBuilder
 	}
 
 	/**
-	 * @return bool
+	 * @return int|null
 	 */
-	public function getTrial(): bool
+	public function getInvoiceId()
 	{
-		return $this->trial;
+		return $this->invoiceId;
 	}
 
 	/**
-	 * @param bool $trial
+	 * @param int|null $invoiceId
 	 * @return $this
 	 */
-	public function trial(bool $trial)
+	public function invoiceId(int $invoiceId = null)
 	{
-		$this->trial = $trial;
+		$this->invoiceId = $invoiceId;
 		return $this;
 	}
 
@@ -137,21 +150,22 @@ class TariffHistoryBuilder implements IBuilder
 	 */
 	public function generateId(): bool
 	{
-		return !\Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory::isIdGeneratedByStorage();
+		return !TariffHistory::isIdGeneratedByStorage();
 	}
 
 	/**
-	 * @return \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory
+	 * @return TariffHistory
 	 */
-	public function build(): \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory
+	public function build(): TariffHistory
 	{
-		return new \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory($this);
+		return new TariffHistory($this);
 	}
 
 	/**
 	 * @param int $projectId
 	 * @param int $applicationId
 	 * @param int $tariffId
+	 * @param string $title
 	 * @param \DateTime $validFrom
 	 * @return self
 	 */
@@ -159,9 +173,10 @@ class TariffHistoryBuilder implements IBuilder
 		int $projectId,
 		int $applicationId,
 		int $tariffId,
+		string $title,
 		\DateTime $validFrom
 	): self
 	{
-		return new self($projectId, $applicationId, $tariffId, $validFrom);
+		return new self($projectId, $applicationId, $tariffId, $title, $validFrom);
 	}
 }

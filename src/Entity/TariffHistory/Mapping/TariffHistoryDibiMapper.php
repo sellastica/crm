@@ -33,7 +33,7 @@ class TariffHistoryDibiMapper extends DibiMapper
 	{
 		$nextMonth = new \DateTime('Y-m-01');
 		$nextMonth = $nextMonth->add(new \DateInterval('P1M'));
-		g($nextMonth);
+
 		return (bool)$this->getResourceWithIds()
 			->where('projectId = %i', $projectId)
 			->where('applicationId = %i', $applicationId)

@@ -6,16 +6,17 @@ use Sellastica\Entity\Entity\IEntity;
 use Sellastica\Entity\IBuilder;
 
 /**
- * @method \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory build(IBuilder $builder, bool $initialize = true, int $assignedId = null)
+ * @method TariffHistory build(IBuilder $builder, bool $initialize = true, int $assignedId = null)
  * @see TariffHistory
  */
 class TariffHistoryFactory extends EntityFactory
 {
 	/**
-	 * @param IEntity|\Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory $entity
+	 * @param IEntity|TariffHistory $entity
 	 */
 	public function doInitialize(IEntity $entity)
 	{
+		$entity->setRelationService(new TariffHistoryRelations($entity, $this->em));
 	}
 
 	/**
@@ -23,6 +24,6 @@ class TariffHistoryFactory extends EntityFactory
 	 */
 	public function getEntityClass(): string
 	{
-		return \Sellastica\Crm\Entity\TariffHistory\Entity\TariffHistory::class;
+		return TariffHistory::class;
 	}
 }

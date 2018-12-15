@@ -6,22 +6,22 @@ use Sellastica\Entity\EntityManager;
 use Sellastica\Entity\Relation\IEntityRelations;
 
 /**
- * @property \Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff
+ * @property Tariff $tariff
  */
 class TariffRelations implements IEntityRelations
 {
-	/** @var \Sellastica\Crm\Entity\Tariff\Entity\Tariff */
+	/** @var Tariff */
 	private $tariff;
 	/** @var EntityManager */
 	private $em;
 
 
 	/**
-	 * @param \Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff
+	 * @param Tariff $tariff
 	 * @param EntityManager $em
 	 */
 	public function __construct(
-		\Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff,
+		Tariff $tariff,
 		EntityManager $em
 	)
 	{

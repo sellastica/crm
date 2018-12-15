@@ -63,15 +63,15 @@ class TariffPriceBuilder implements IBuilder
 	 */
 	public function generateId(): bool
 	{
-		return !\Sellastica\Crm\Entity\TariffPrice\Entity\TariffPrice::isIdGeneratedByStorage();
+		return !TariffPrice::isIdGeneratedByStorage();
 	}
 
 	/**
-	 * @return \Sellastica\Crm\Entity\TariffPrice\Entity\TariffPrice
+	 * @return TariffPrice
 	 */
-	public function build(): \Sellastica\Crm\Entity\TariffPrice\Entity\TariffPrice
+	public function build(): TariffPrice
 	{
-		return new \Sellastica\Crm\Entity\TariffPrice\Entity\TariffPrice($this);
+		return new TariffPrice($this);
 	}
 
 	/**

@@ -51,6 +51,7 @@ class TariffHistoryDao extends Dao
 			$data->projectId,
 			$data->applicationId,
 			$data->tariffId,
+			$data->title,
 			$data->validFrom
 		)->hydrate($data);
 	}

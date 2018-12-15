@@ -6,6 +6,8 @@ use Sellastica\Crm\Model\AccountingPeriod;
 /**
  * @generate-builder
  * @see TariffHistoryBuilder
+ *
+ * @property TariffHistoryRelations $relationService
  */
 class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 {
@@ -17,14 +19,16 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 	private $applicationId;
 	/** @var int @required */
 	private $tariffId;
+	/** @var string @required */
+	private $title;
 	/** @var \DateTime @required */
 	private $validFrom;
 	/** @var \DateTime|null @optional */
 	private $validTill;
 	/** @var AccountingPeriod|null @optional */
 	private $accountingPeriod;
-	/** @var bool @optional */
-	private $trial;
+	/** @var int|null @optional */
+	private $invoiceId;
 
 
 	/**
@@ -52,6 +56,22 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @param int $projectId
+	 */
+	public function setProjectId(int $projectId): void
+	{
+		$this->projectId = $projectId;
+	}
+
+	/**
+	 * @return \Sellastica\Project\Entity\Project
+	 */
+	public function getProject(): \Sellastica\Project\Entity\Project
+	{
+		return $this->relationService->getProject();
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getApplicationId(): int
@@ -65,6 +85,38 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 	public function getTariffId(): int
 	{
 		return $this->tariffId;
+	}
+
+	/**
+	 * @param int $tariffId
+	 */
+	public function setTariffId(int $tariffId): void
+	{
+		$this->tariffId = $tariffId;
+	}
+
+	/**
+	 * @return \Sellastica\Crm\Entity\Tariff\Entity\Tariff
+	 */
+	public function getTariff(): \Sellastica\Crm\Entity\Tariff\Entity\Tariff
+	{
+		return $this->relationService->getTariff();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string
+	{
+		return $this->title;
+	}
+
+	/**
+	 * @param string $title
+	 */
+	public function setTitle(string $title): void
+	{
+		$this->title = $title;
 	}
 
 	/**
@@ -126,51 +178,19 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
-	 * @return bool
+	 * @return int|null
 	 */
-	public function isTrial(): bool
+	public function getInvoiceId(): ?int
 	{
-		return $this->trial;
-	}
-
-	public function setTrial(): void
-	{
-		$this->trial = true;
+		return $this->invoiceId;
 	}
 
 	/**
-	 * @return bool
+	 * @param int|null $invoiceId
 	 */
-	public function isProduction(): bool
+	public function setInvoiceId(?int $invoiceId): void
 	{
-		return !$this->isTrial();
-	}
-
-	public function setProduction(): void
-	{
-		$this->trial = false;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isTrialExpired(): bool
-	{
-		return $this->isTrial()
-			&& isset($this->validTill)
-			&& $this->validTill < new \DateTime('today');
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getTrialDaysLeft(): int
-	{
-		if ($this->isTrial()) {
-			return $this->validTill->diff($this->validFrom)->format('%a');
-		}
-
-		return 0;
+		$this->invoiceId = $invoiceId;
 	}
 
 	/**
@@ -184,10 +204,11 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 				'projectId' => $this->projectId,
 				'applicationId' => $this->applicationId,
 				'tariffId' => $this->tariffId,
+				'title' => $this->title,
 				'validFrom' => $this->validFrom,
 				'validTill' => $this->validTill,
 				'accountingPeriod' => $this->accountingPeriod ? $this->accountingPeriod->getPeriod() : null,
-				'trial' => $this->trial,
+				'invoiceId' => $this->invoiceId,
 			]
 		);
 	}
