@@ -16,8 +16,19 @@ class InvoiceDao extends \Sellastica\Entity\Mapping\Dao
 		$second = null
 	): \Sellastica\Entity\IBuilder
 	{
-		return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceBuilder::create($data->projectId, $data->code, $data->varSymbol, $data->dueDate, $data->price, $data->externalId)
-			->hydrate($data);
+		return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceBuilder::create(
+			$data->projectId,
+			$data->code,
+			$data->varSymbol,
+			new \DateTime($data->dueDate),
+			\Sellastica\Price\Price::sumPrice(
+				$data->price,
+				0,
+				\Sellastica\Localization\Model\Currency::from($data->currency)
+			),
+			$data->externalId,
+			new \Sellastica\Identity\Model\Email('info@example.com')
+		)->hydrate($data);
 	}
 
 	/**

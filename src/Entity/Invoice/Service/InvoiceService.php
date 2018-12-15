@@ -45,6 +45,20 @@ class InvoiceService
 	}
 
 	/**
+	 * @param array $filter
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return null|\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	 */
+	public function findOneBy(
+		array $filter,
+		\Sellastica\Entity\Configuration $configuration = null
+	): ?\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
+			->findOneBy($filter, $configuration);
+	}
+
+	/**
 	 * @param int $projectId
 	 * @param string $code
 	 * @param string $varSymbol
