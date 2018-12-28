@@ -42,6 +42,18 @@ class InvoiceService
 	}
 
 	/**
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
+	 */
+	public function findUnpaidInvoices(
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
+			->findBy(['paymentDate IS NULL'], $configuration);
+	}
+
+	/**
 	 * @param array $filter
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return null|\Sellastica\Crm\Entity\Invoice\Entity\Invoice

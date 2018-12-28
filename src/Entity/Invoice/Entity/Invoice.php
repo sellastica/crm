@@ -29,7 +29,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $externalUrl;
 	/** @var bool @optional */
 	private $proforma = true;
-
+	/** @var bool @optional */
+	private $display = true;
 
 	/**
 	 * @param InvoiceBuilder $builder
@@ -109,6 +110,14 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	public function setDueDate(\DateTime $dueDate): void
 	{
 		$this->dueDate = $dueDate;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAfterDueDate(): bool
+	{
+		return $this->dueDate->format('Ymd') < (new \DateTime())->format('Ymd');
 	}
 
 	/**
@@ -192,6 +201,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isDisplay(): bool
+	{
+		return $this->display;
+	}
+
+	/**
+	 * @param bool $display
+	 */
+	public function setDisplay(bool $display): void
+	{
+		$this->display = $display;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -210,6 +235,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'externalId' => $this->externalId,
 				'externalUrl' => $this->externalUrl,
 				'proforma' => $this->proforma,
+				'display' => $this->display,
 			]
 		);
 	}

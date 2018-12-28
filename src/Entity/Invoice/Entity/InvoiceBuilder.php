@@ -29,6 +29,8 @@ class InvoiceBuilder implements IBuilder
 	private $externalUrl;
 	/** @var bool */
 	private $proforma = true;
+	/** @var bool */
+	private $display = true;
 
 	/**
 	 * @param int $projectId
@@ -154,6 +156,24 @@ class InvoiceBuilder implements IBuilder
 	public function proforma(bool $proforma = true)
 	{
 		$this->proforma = $proforma;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getDisplay(): bool
+	{
+		return $this->display;
+	}
+
+	/**
+	 * @param bool $display
+	 * @return $this
+	 */
+	public function display(bool $display = true)
+	{
+		$this->display = $display;
 		return $this;
 	}
 
