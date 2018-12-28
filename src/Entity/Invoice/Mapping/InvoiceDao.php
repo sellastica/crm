@@ -8,6 +8,21 @@ namespace Sellastica\Crm\Entity\Invoice\Mapping;
 class InvoiceDao extends \Sellastica\Entity\Mapping\Dao
 {
 	/**
+	 * @param int $projectId
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
+	 */
+	public function findUnpaidInvoices(
+		int $projectId,
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
+	{
+		return $this->getEntitiesFromCacheOrStorage(
+			$this->mapper->findUnpaidInvoices($projectId, $configuration)
+		);
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	protected function getBuilder(

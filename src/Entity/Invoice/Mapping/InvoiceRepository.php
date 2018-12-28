@@ -11,4 +11,18 @@ use Sellastica\Crm\Entity\Invoice\Entity\IInvoiceRepository;
  */
 class InvoiceRepository extends Repository implements IInvoiceRepository
 {
+	/**
+	 * @param int $projectId
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
+	 */
+	public function findUnpaidInvoices(
+		int $projectId,
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
+	{
+		return $this->initialize(
+			$this->dao->findUnpaidInvoices($projectId, $configuration)
+		);
+	}
 }

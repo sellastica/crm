@@ -23,4 +23,25 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 		return ($databaseName ? $this->environment->getCrmDatabaseName() . '.' : '')
 			. 'invoice';
 	}
+
+	/**
+	 * @param int $projectId
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return array
+	 */
+	public function findUnpaidInvoices(
+		int $projectId,
+		\Sellastica\Entity\Configuration $configuration = null
+	): array
+	{
+		$resource = $this->getResourceWithIds($configuration)
+			->where('projectId = %i', $projectId)
+			->where('paymentDate IS NULL');
+
+		if ($configuration) {
+			$this->setSorter($resource, $configuration->getSorter());
+		}
+
+		return $resource->fetchPairs();
+	}
 }

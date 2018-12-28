@@ -11,4 +11,11 @@ use Sellastica\Crm\Entity\Invoice\Entity\Invoice;
  */
 class InvoiceRepositoryProxy extends RepositoryProxy implements IInvoiceRepository
 {
+	public function findUnpaidInvoices(
+		int $projectId,
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
+	{
+		return $this->getRepository()->findUnpaidInvoices($projectId, $configuration);
+	}
 }
