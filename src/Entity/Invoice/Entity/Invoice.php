@@ -65,6 +65,14 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return \Sellastica\Project\Entity\Project
+	 */
+	public function getProject(): \Sellastica\Project\Entity\Project
+	{
+		return $this->relationService->getProject();
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getCode(): string
@@ -187,6 +195,14 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	/**
 	 * @return bool
 	 */
+	public function isPaid(): bool
+	{
+		return !empty($this->paymentDate);
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function isProforma(): bool
 	{
 		return $this->proforma;
@@ -214,6 +230,14 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	public function setDisplay(bool $display): void
 	{
 		$this->display = $display;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPaymentId(): string
+	{
+		return $this->code . '-' . $this->varSymbol;
 	}
 
 	/**
