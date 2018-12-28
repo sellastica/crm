@@ -23,6 +23,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $price;
 	/** @var int @required */
 	private $externalId;
+	/** @var string|null @optional */
+	private $externalUrl;
 
 
 	/**
@@ -138,6 +140,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return string|null
+	 */
+	public function getExternalUrl(): ?string
+	{
+		return $this->externalUrl;
+	}
+
+	/**
+	 * @param string|null $externalUrl
+	 */
+	public function setExternalUrl(?string $externalUrl): void
+	{
+		$this->externalUrl = $externalUrl;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -150,8 +168,10 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'varSymbol' => $this->varSymbol,
 				'dueDate' => $this->dueDate,
 				'price' => $this->price->getDefaultPrice(),
+				'vat' => $this->price->getTax(),
 				'currency' => $this->price->getCurrency()->getCode(),
 				'externalId' => $this->externalId,
+				'externalUrl' => $this->externalUrl,
 			]
 		);
 	}

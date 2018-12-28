@@ -23,6 +23,8 @@ class InvoiceBuilder implements IBuilder
 	private $price;
 	/** @var int */
 	private $externalId;
+	/** @var string|null */
+	private $externalUrl;
 
 	/**
 	 * @param int $projectId
@@ -95,6 +97,24 @@ class InvoiceBuilder implements IBuilder
 	public function getExternalId(): int
 	{
 		return $this->externalId;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getExternalUrl()
+	{
+		return $this->externalUrl;
+	}
+
+	/**
+	 * @param string|null $externalUrl
+	 * @return $this
+	 */
+	public function externalUrl(string $externalUrl = null)
+	{
+		$this->externalUrl = $externalUrl;
+		return $this;
 	}
 
 	/**
