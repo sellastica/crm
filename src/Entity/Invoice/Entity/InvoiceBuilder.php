@@ -23,8 +23,6 @@ class InvoiceBuilder implements IBuilder
 	private $price;
 	/** @var int */
 	private $externalId;
-	/** @var \Sellastica\Identity\Model\Email */
-	private $email;
 
 	/**
 	 * @param int $projectId
@@ -33,7 +31,6 @@ class InvoiceBuilder implements IBuilder
 	 * @param \DateTime $dueDate
 	 * @param \Sellastica\Price\Price $price
 	 * @param int $externalId
-	 * @param \Sellastica\Identity\Model\Email $email
 	 */
 	public function __construct(
 		int $projectId,
@@ -41,8 +38,7 @@ class InvoiceBuilder implements IBuilder
 		string $varSymbol,
 		\DateTime $dueDate,
 		\Sellastica\Price\Price $price,
-		int $externalId,
-		\Sellastica\Identity\Model\Email $email
+		int $externalId
 	)
 	{
 		$this->projectId = $projectId;
@@ -51,7 +47,6 @@ class InvoiceBuilder implements IBuilder
 		$this->dueDate = $dueDate;
 		$this->price = $price;
 		$this->externalId = $externalId;
-		$this->email = $email;
 	}
 
 	/**
@@ -103,14 +98,6 @@ class InvoiceBuilder implements IBuilder
 	}
 
 	/**
-	 * @return \Sellastica\Identity\Model\Email
-	 */
-	public function getEmail(): \Sellastica\Identity\Model\Email
-	{
-		return $this->email;
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function generateId(): bool
@@ -133,7 +120,6 @@ class InvoiceBuilder implements IBuilder
 	 * @param \DateTime $dueDate
 	 * @param \Sellastica\Price\Price $price
 	 * @param int $externalId
-	 * @param \Sellastica\Identity\Model\Email $email
 	 * @return self
 	 */
 	public static function create(
@@ -142,10 +128,9 @@ class InvoiceBuilder implements IBuilder
 		string $varSymbol,
 		\DateTime $dueDate,
 		\Sellastica\Price\Price $price,
-		int $externalId,
-		\Sellastica\Identity\Model\Email $email
+		int $externalId
 	): self
 	{
-		return new self($projectId, $code, $varSymbol, $dueDate, $price, $externalId, $email);
+		return new self($projectId, $code, $varSymbol, $dueDate, $price, $externalId);
 	}
 }

@@ -23,8 +23,6 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $price;
 	/** @var int @required */
 	private $externalId;
-	/** @var \Sellastica\Identity\Model\Email @required */
-	private $email;
 
 
 	/**
@@ -33,6 +31,14 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	public function __construct(InvoiceBuilder $builder)
 	{
 		$this->hydrate($builder);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isIdGeneratedByStorage(): bool
+	{
+		return true;
 	}
 
 	/**
@@ -132,23 +138,6 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
-	 * @param bool $object
-	 * @return string
-	 */
-	public function getEmail(bool $object = false): string
-	{
-		return $object ? $this->email : (string)$this->email;
-	}
-
-	/**
-	 * @param \Sellastica\Identity\Model\Email $email
-	 */
-	public function setEmail(\Sellastica\Identity\Model\Email $email): void
-	{
-		$this->email = $email;
-	}
-
-	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -161,8 +150,6 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'varSymbol' => $this->varSymbol,
 				'dueDate' => $this->dueDate,
 				'price' => $this->price->getDefaultPrice(),
-				//'vat' => $this->price->getTax(),
-				//'email' => $this->getEmail(),
 				'currency' => $this->price->getCurrency()->getCode(),
 				'externalId' => $this->externalId,
 			]

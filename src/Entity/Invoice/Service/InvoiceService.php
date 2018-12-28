@@ -1,9 +1,6 @@
 <?php
 namespace Sellastica\Crm\Entity\Invoice\Service;
 
-use Sellastica\Crm\Entity\InvoiceHistory\Service\InvoiceHistoryService;
-use Sellastica\Entity\Entity\IEntity;
-
 class InvoiceService
 {
 	/** @var \Sellastica\Entity\EntityManager */
