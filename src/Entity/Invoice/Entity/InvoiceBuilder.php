@@ -23,8 +23,12 @@ class InvoiceBuilder implements IBuilder
 	private $price;
 	/** @var int */
 	private $externalId;
+	/** @var \DateTime|null */
+	private $paymentDate;
 	/** @var string|null */
 	private $externalUrl;
+	/** @var bool */
+	private $proforma = true;
 
 	/**
 	 * @param int $projectId
@@ -100,6 +104,24 @@ class InvoiceBuilder implements IBuilder
 	}
 
 	/**
+	 * @return \DateTime|null
+	 */
+	public function getPaymentDate()
+	{
+		return $this->paymentDate;
+	}
+
+	/**
+	 * @param \DateTime|null $paymentDate
+	 * @return $this
+	 */
+	public function paymentDate(\DateTime $paymentDate = null)
+	{
+		$this->paymentDate = $paymentDate;
+		return $this;
+	}
+
+	/**
 	 * @return string|null
 	 */
 	public function getExternalUrl()
@@ -114,6 +136,24 @@ class InvoiceBuilder implements IBuilder
 	public function externalUrl(string $externalUrl = null)
 	{
 		$this->externalUrl = $externalUrl;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getProforma(): bool
+	{
+		return $this->proforma;
+	}
+
+	/**
+	 * @param bool $proforma
+	 * @return $this
+	 */
+	public function proforma(bool $proforma = true)
+	{
+		$this->proforma = $proforma;
 		return $this;
 	}
 

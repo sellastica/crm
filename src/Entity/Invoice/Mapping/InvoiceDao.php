@@ -17,7 +17,7 @@ class InvoiceDao extends \Sellastica\Entity\Mapping\Dao
 	): \Sellastica\Entity\IBuilder
 	{
 		$data->price = \Sellastica\Price\Price::sumPrice(
-			$data->price,
+			$data->price + $data->vat,
 			$data->vat,
 			\Sellastica\Localization\Model\Currency::from($data->currency)
 		);

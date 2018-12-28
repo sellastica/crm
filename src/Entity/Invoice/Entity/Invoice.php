@@ -19,12 +19,16 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $varSymbol;
 	/** @var \DateTime @required */
 	private $dueDate;
+	/** @var \DateTime|null @optional */
+	private $paymentDate;
 	/** @var \Sellastica\Price\Price @required */
 	private $price;
 	/** @var int @required */
 	private $externalId;
 	/** @var string|null @optional */
 	private $externalUrl;
+	/** @var bool @optional */
+	private $proforma = true;
 
 
 	/**
@@ -156,6 +160,38 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return \DateTime|null
+	 */
+	public function getPaymentDate(): ?\DateTime
+	{
+		return $this->paymentDate;
+	}
+
+	/**
+	 * @param \DateTime|null $paymentDate
+	 */
+	public function setPaymentDate(?\DateTime $paymentDate): void
+	{
+		$this->paymentDate = $paymentDate;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isProforma(): bool
+	{
+		return $this->proforma;
+	}
+
+	/**
+	 * @param bool $proforma
+	 */
+	public function setProforma(bool $proforma): void
+	{
+		$this->proforma = $proforma;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -167,11 +203,13 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'code' => $this->code,
 				'varSymbol' => $this->varSymbol,
 				'dueDate' => $this->dueDate,
+				'paymentDate' => $this->paymentDate,
 				'price' => $this->price->getDefaultPrice(),
 				'vat' => $this->price->getTax(),
 				'currency' => $this->price->getCurrency()->getCode(),
 				'externalId' => $this->externalId,
 				'externalUrl' => $this->externalUrl,
+				'proforma' => $this->proforma,
 			]
 		);
 	}
