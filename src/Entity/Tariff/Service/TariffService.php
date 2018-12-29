@@ -92,34 +92,37 @@ class TariffService
 
 	/**
 	 * @param \Sellastica\App\Entity\App $app
+	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Crm\Entity\Tariff\Entity\TariffCollection
 	 */
-	public function getAllTariffs(\Sellastica\App\Entity\App $app): \Sellastica\Crm\Entity\Tariff\Entity\TariffCollection
+	public function getAllTariffs(
+		\Sellastica\App\Entity\App $app,
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Crm\Entity\Tariff\Entity\TariffCollection
 	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Tariff\Entity\Tariff::class)
-			->findBy(['applicationId' => $app->getId()], \Sellastica\Entity\Configuration::sortBy('priority'));
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Tariff\Entity\Tariff::class)->findBy(
+			['applicationId' => $app->getId()],
+			$configuration
+		);
 	}
 
 	/**
-	 * @param \Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff
-	 * @param \Sellastica\Crm\Model\AccountingPeriod $period
-	 * @param \DateTime|null $validFrom
-	 * @param \Sellastica\Project\Entity\Project $project
+	 * @param \Sellastica\App\Entity\App $app
+	 * @param int $productsCount
+	 * @return \Sellastica\Crm\Entity\Tariff\Entity\Tariff|null
 	 */
-	public function setTariff(
-		\Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff,
-		\Sellastica\Project\Entity\Project $project,
-		\Sellastica\Crm\Model\AccountingPeriod $period,
-		\DateTime $validFrom = null
-	)
+	public function findTariffByProductsCount(
+		\Sellastica\App\Entity\App $app,
+		int $productsCount
+	): ?\Sellastica\Crm\Entity\Tariff\Entity\Tariff
 	{
-		$tariffHistory = $this->historyService->createNewHistory(
-			$tariff,
-			$project,
-			$validFrom ?? new \DateTime('today'),
-			null,
-			$period
-		);
-		$tariffHistory->setProduction();
+		$tariffs = $this->getAllTariffs($app, \Sellastica\Entity\Configuration::sortBy('products'));
+		foreach ($tariffs as $tariff) {
+			if ($tariff->getProducts() > $productsCount) {
+				return $tariff;
+			}
+		}
+
+		return $tariffs[count($tariffs) - 1];
 	}
 }

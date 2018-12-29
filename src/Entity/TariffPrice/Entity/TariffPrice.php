@@ -44,11 +44,17 @@ class TariffPrice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
-	 * @param AccountingPeriod $accountingPeriod
+	 * @param AccountingPeriod $accountingPeriod|null
 	 * @return \Sellastica\Price\Price
 	 */
-	public function getPrice(AccountingPeriod $accountingPeriod): \Sellastica\Price\Price
+	public function getPrice(
+		AccountingPeriod $accountingPeriod = null
+	): \Sellastica\Price\Price
 	{
+		if (!isset($accountingPeriod)) {
+			$accountingPeriod = AccountingPeriod::monthly();
+		}
+
 		if ($accountingPeriod->isMonthly()) {
 			return $this->monthly;
 		} else {
@@ -57,11 +63,17 @@ class TariffPrice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
-	 * @param AccountingPeriod $accountingPeriod
+	 * @param AccountingPeriod $accountingPeriod|null
 	 * @return \Sellastica\Price\Price
 	 */
-	public function getMonthlyPrice(AccountingPeriod $accountingPeriod): \Sellastica\Price\Price
+	public function getMonthlyPrice(
+		AccountingPeriod $accountingPeriod = null
+	): \Sellastica\Price\Price
 	{
+		if (!isset($accountingPeriod)) {
+			$accountingPeriod = AccountingPeriod::monthly();
+		}
+
 		$price = $this->getPrice($accountingPeriod);
 		return $accountingPeriod->isMonthly()
 			? $price
