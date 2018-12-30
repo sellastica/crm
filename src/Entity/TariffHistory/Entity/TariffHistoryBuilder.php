@@ -28,6 +28,8 @@ class TariffHistoryBuilder implements IBuilder
 	private $accountingPeriod;
 	/** @var int|null */
 	private $invoiceId;
+	/** @var bool */
+	private $active = true;
 
 	/**
 	 * @param int $projectId
@@ -142,6 +144,24 @@ class TariffHistoryBuilder implements IBuilder
 	public function invoiceId(int $invoiceId = null)
 	{
 		$this->invoiceId = $invoiceId;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getActive(): bool
+	{
+		return $this->active;
+	}
+
+	/**
+	 * @param bool $active
+	 * @return $this
+	 */
+	public function active(bool $active = true)
+	{
+		$this->active = $active;
 		return $this;
 	}
 

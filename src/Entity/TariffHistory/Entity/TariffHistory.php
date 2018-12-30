@@ -29,7 +29,8 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 	private $accountingPeriod;
 	/** @var int|null @optional */
 	private $invoiceId;
-
+	/** @var bool @optional */
+	private $active = true;
 
 	/**
 	 * @param TariffHistoryBuilder $builder
@@ -194,6 +195,22 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isActive(): bool
+	{
+		return $this->active;
+	}
+
+	/**
+	 * @param bool $active
+	 */
+	public function setActive(bool $active): void
+	{
+		$this->active = $active;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -209,6 +226,7 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 				'validTill' => $this->validTill,
 				'accountingPeriod' => $this->accountingPeriod ? $this->accountingPeriod->getPeriod() : null,
 				'invoiceId' => $this->invoiceId,
+				'active' => $this->active,
 			]
 		);
 	}
