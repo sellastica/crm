@@ -31,6 +31,8 @@ class InvoiceBuilder implements IBuilder
 	private $proforma = true;
 	/** @var bool */
 	private $display = true;
+	/** @var bool */
+	private $cancelled = false;
 
 	/**
 	 * @param int $projectId
@@ -174,6 +176,24 @@ class InvoiceBuilder implements IBuilder
 	public function display(bool $display = true)
 	{
 		$this->display = $display;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getCancelled(): bool
+	{
+		return $this->cancelled;
+	}
+
+	/**
+	 * @param bool $cancelled
+	 * @return $this
+	 */
+	public function cancelled(bool $cancelled)
+	{
+		$this->cancelled = $cancelled;
 		return $this;
 	}
 

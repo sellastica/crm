@@ -31,6 +31,9 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $proforma = true;
 	/** @var bool @optional */
 	private $display = true;
+	/** @var bool @optional */
+	private $cancelled = false;
+
 
 	/**
 	 * @param InvoiceBuilder $builder
@@ -241,6 +244,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isCancelled(): bool
+	{
+		return $this->cancelled;
+	}
+
+	/**
+	 * @param bool $cancelled
+	 */
+	public function setCancelled(bool $cancelled): void
+	{
+		$this->cancelled = $cancelled;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -260,6 +279,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'externalUrl' => $this->externalUrl,
 				'proforma' => $this->proforma,
 				'display' => $this->display,
+				'cancelled' => $this->cancelled,
 			]
 		);
 	}
