@@ -33,6 +33,8 @@ class InvoiceBuilder implements IBuilder
 	private $display = true;
 	/** @var bool */
 	private $cancelled = false;
+	/** @var float */
+	private $paidAmount = 0;
 
 	/**
 	 * @param int $projectId
@@ -194,6 +196,24 @@ class InvoiceBuilder implements IBuilder
 	public function cancelled(bool $cancelled)
 	{
 		$this->cancelled = $cancelled;
+		return $this;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getPaidAmount(): float
+	{
+		return $this->paidAmount;
+	}
+
+	/**
+	 * @param float $paidAmount
+	 * @return $this
+	 */
+	public function paidAmount(float $paidAmount)
+	{
+		$this->paidAmount = $paidAmount;
 		return $this;
 	}
 

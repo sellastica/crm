@@ -33,6 +33,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $display = true;
 	/** @var bool @optional */
 	private $cancelled = false;
+	/** @var float @optional */
+	private $paidAmount = 0;
 
 
 	/**
@@ -200,7 +202,16 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	 */
 	public function isPaid(): bool
 	{
-		return !empty($this->paymentDate);
+		return round($this->paidAmount) >= round($this->price->getWithTax());
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isPartiallyPaid(): bool
+	{
+		return $this->paidAmount > 0
+			&& round($this->paidAmount) < round($this->price->getWithTax());
 	}
 
 	/**
@@ -260,6 +271,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return float
+	 */
+	public function getPaidAmount(): float
+	{
+		return $this->paidAmount;
+	}
+
+	/**
+	 * @param float $paidAmount
+	 */
+	public function setPaidAmount(float $paidAmount): void
+	{
+		$this->paidAmount = $paidAmount;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -280,6 +307,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'proforma' => $this->proforma,
 				'display' => $this->display,
 				'cancelled' => $this->cancelled,
+				'paidAmount' => $this->paidAmount,
 			]
 		);
 	}
