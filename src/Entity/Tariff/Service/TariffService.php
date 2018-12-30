@@ -118,7 +118,9 @@ class TariffService
 	{
 		$tariffs = $this->getAllTariffs($app, \Sellastica\Entity\Configuration::sortBy('products'));
 		foreach ($tariffs as $tariff) {
-			if ($tariff->getProducts() > $productsCount) {
+			if ($tariff->getProducts() === 0 && $productsCount === 0) {
+				return $tariff;
+			} elseif ($tariff->getProducts() > $productsCount) {
 				return $tariff;
 			}
 		}
