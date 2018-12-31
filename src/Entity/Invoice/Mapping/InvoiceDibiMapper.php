@@ -36,7 +36,7 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 	{
 		$resource = $this->getResourceWithIds($configuration)
 			->where('projectId = %i', $projectId)
-			->where('paymentDate IS NULL');
+			->where('CEIL(paidAmount) < CEIL(price + vat)');
 
 		if ($configuration) {
 			$this->setSorter($resource, $configuration->getSorter());

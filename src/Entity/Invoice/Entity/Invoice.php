@@ -202,7 +202,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	 */
 	public function isPaid(): bool
 	{
-		return round($this->paidAmount) >= round($this->price->getWithTax());
+		return ceil($this->paidAmount) >= ceil($this->price->getWithTax());
 	}
 
 	/**
@@ -211,7 +211,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	public function isPartiallyPaid(): bool
 	{
 		return $this->paidAmount > 0
-			&& round($this->paidAmount) < round($this->price->getWithTax());
+			&& ceil($this->paidAmount) < ceil($this->price->getWithTax());
 	}
 
 	/**
