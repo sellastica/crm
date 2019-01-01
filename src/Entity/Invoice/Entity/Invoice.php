@@ -35,6 +35,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $cancelled = false;
 	/** @var float @optional */
 	private $paidAmount = 0;
+	/** @var \DateTime|null @optional */
+	private $sent;
 
 
 	/**
@@ -287,6 +289,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return \DateTime|null
+	 */
+	public function getSent(): ?\DateTime
+	{
+		return $this->sent;
+	}
+
+	/**
+	 * @param \DateTime|null $sent
+	 */
+	public function setSent(?\DateTime $sent): void
+	{
+		$this->sent = $sent;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -308,6 +326,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'display' => $this->display,
 				'cancelled' => $this->cancelled,
 				'paidAmount' => $this->paidAmount,
+				'sent' => $this->sent,
 			]
 		);
 	}
