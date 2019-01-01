@@ -6,6 +6,8 @@ namespace Sellastica\Crm\Entity\Invoice\Mapping;
  */
 class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 {
+	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesDibiMapper;
+
 	/**
 	 * @return bool
 	 */

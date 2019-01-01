@@ -11,6 +11,9 @@ use Sellastica\Crm\Entity\Invoice\Entity\Invoice;
  */
 class InvoiceRepositoryProxy extends RepositoryProxy implements IInvoiceRepository
 {
+	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesRepositoryProxy;
+
+
 	public function findUnpaidInvoices(
 		int $projectId,
 		\Sellastica\Entity\Configuration $configuration = null

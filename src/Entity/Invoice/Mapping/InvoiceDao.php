@@ -7,6 +7,8 @@ namespace Sellastica\Crm\Entity\Invoice\Mapping;
  */
 class InvoiceDao extends \Sellastica\Entity\Mapping\Dao
 {
+	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesDao;
+
 	/**
 	 * @param int $projectId
 	 * @param \Sellastica\Entity\Configuration|null $configuration

@@ -11,6 +11,8 @@ use Sellastica\Crm\Entity\Invoice\Entity\IInvoiceRepository;
  */
 class InvoiceRepository extends Repository implements IInvoiceRepository
 {
+	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesRepository;
+
 	/**
 	 * @param int $projectId
 	 * @param \Sellastica\Entity\Configuration|null $configuration
