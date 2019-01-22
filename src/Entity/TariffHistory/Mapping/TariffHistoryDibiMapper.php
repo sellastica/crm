@@ -25,6 +25,23 @@ class TariffHistoryDibiMapper extends DibiMapper
 	}
 
 	/**
+	 * @param int $projectId
+	 * @param int $applicationId
+	 * @return int|false
+	 */
+	public function isNextMonthHistory(int $projectId, int $applicationId): bool
+	{
+		$nextMonth = new \DateTime('Y-m-01');
+		$nextMonth = $nextMonth->add(new \DateInterval('P1M'));
+
+		return (bool)$this->getResourceWithIds()
+			->where('projectId = %i', $projectId)
+			->where('applicationId = %i', $applicationId)
+			->where('validFrom <= %d', $nextMonth)
+			->fetchSingle();
+	}
+
+	/**
 	 * @return bool
 	 */
 	protected function isInCrmDatabase(): bool

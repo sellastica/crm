@@ -26,6 +26,16 @@ class TariffHistoryDao extends Dao
 	}
 
 	/**
+	 * @param int $projectId
+	 * @param int $applicationId
+	 * @return int|false
+	 */
+	public function isNextMonthHistory(int $projectId, int $applicationId): bool
+	{
+		return $this->mapper->isNextMonthHistory($projectId, $applicationId);
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	protected function getBuilder(
