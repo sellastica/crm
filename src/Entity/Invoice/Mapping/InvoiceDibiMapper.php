@@ -31,7 +31,7 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return array
 	 */
-	public function findUnpaidInvoices(
+	public function findInvoicesToDisplay(
 		int $projectId,
 		\Sellastica\Entity\Configuration $configuration = null
 	): array
@@ -39,7 +39,9 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 		$resource = $this->getResourceWithIds($configuration)
 			->where('projectId = %i', $projectId)
 			->where('cancelled = 0')
-			->where('CEIL(paidAmount) < CEIL(price + vat)');
+			->where('(display = 1 OR (FLOOR(priceToPay - paidAmount) > 0 AND dueDate < %d))', new \DateTime(
+				sprintf('-%s days', \Sellastica\Project\Service\ProjectService::SUSPEND_AFTER_DAYS))
+			);
 
 		if ($configuration) {
 			$this->setSorter($resource, $configuration->getSorter());

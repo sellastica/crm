@@ -14,12 +14,12 @@ class InvoiceRepositoryProxy extends RepositoryProxy implements IInvoiceReposito
 	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesRepositoryProxy;
 
 
-	public function findUnpaidInvoices(
+	public function findInvoicesToDisplay(
 		int $projectId,
 		\Sellastica\Entity\Configuration $configuration = null
 	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
 	{
-		return $this->getRepository()->findUnpaidInvoices($projectId, $configuration);
+		return $this->getRepository()->findInvoicesToDisplay($projectId, $configuration);
 	}
 
 	public function findLongestUnpaidInvoice(int $projectId): ?\Sellastica\Crm\Entity\Invoice\Entity\Invoice

@@ -46,13 +46,13 @@ class InvoiceService
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
 	 */
-	public function findUnpaidInvoices(
+	public function findInvoicesToDisplay(
 		int $projectId,
 		\Sellastica\Entity\Configuration $configuration = null
 	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
 	{
 		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
-			->findUnpaidInvoices($projectId, $configuration);
+			->findInvoicesToDisplay($projectId, $configuration);
 	}
 
 	/**

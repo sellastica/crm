@@ -18,13 +18,13 @@ class InvoiceRepository extends Repository implements IInvoiceRepository
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
 	 */
-	public function findUnpaidInvoices(
+	public function findInvoicesToDisplay(
 		int $projectId,
 		\Sellastica\Entity\Configuration $configuration = null
 	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
 	{
 		return $this->initialize(
-			$this->dao->findUnpaidInvoices($projectId, $configuration)
+			$this->dao->findInvoicesToDisplay($projectId, $configuration)
 		);
 	}
 

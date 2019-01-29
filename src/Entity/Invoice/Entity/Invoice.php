@@ -226,11 +226,19 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return float
+	 */
+	public function getPriceToPayLeft(): float
+	{
+		return floor($this->priceToPay - $this->paidAmount);
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isPaid(): bool
 	{
-		return ceil($this->priceToPay) === ceil($this->paidAmount);
+		return !$this->getPriceToPayLeft();
 	}
 
 	/**
@@ -240,14 +248,6 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	{
 		return ceil($this->paidAmount) > 0
 			&& ceil($this->paidAmount) < ceil($this->priceToPay);
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getPriceToPayLeft(): float
-	{
-		return floor($this->priceToPay - $this->paidAmount);
 	}
 
 	/**
@@ -280,6 +280,14 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	public function setDisplay(bool $display): void
 	{
 		$this->display = $display;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function canHide(): bool
+	{
+		return !$this->getPriceToPayLeft() || !$this->isAfterDueDate();
 	}
 
 	/**
