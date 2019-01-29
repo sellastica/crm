@@ -38,6 +38,7 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 	{
 		$resource = $this->getResourceWithIds($configuration)
 			->where('projectId = %i', $projectId)
+			->where('cancelled = 0')
 			->where('CEIL(paidAmount) < CEIL(price + vat)');
 
 		if ($configuration) {
@@ -45,5 +46,20 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 		}
 
 		return $resource->fetchPairs();
+	}
+
+	/**
+	 * @param int $projectId
+	 * @return int|false
+	 */
+	public function findLongestUnpaidInvoice(int $projectId)
+	{
+		$resource = $this->getResourceWithIds()
+			->where('projectId = %i', $projectId)
+			->where('CEIL(paidAmount) < CEIL(price + vat)')
+			->where('cancelled = 0')
+			->orderBy('dueDate');
+
+		return $resource->fetchSingle();
 	}
 }

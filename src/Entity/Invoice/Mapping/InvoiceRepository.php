@@ -27,4 +27,15 @@ class InvoiceRepository extends Repository implements IInvoiceRepository
 			$this->dao->findUnpaidInvoices($projectId, $configuration)
 		);
 	}
+
+	/**
+	 * @param int $projectId
+	 * @return Invoice|null
+	 */
+	public function findLongestUnpaidInvoice(int $projectId): ?\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	{
+		return $this->initialize(
+			$this->dao->findLongestUnpaidInvoice($projectId)
+		);
+	}
 }

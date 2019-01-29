@@ -97,22 +97,22 @@ class TariffHistoryService
 	/**
 	 * @param \Sellastica\App\Entity\App $app
 	 * @param \Sellastica\Project\Entity\Project $project
-	 * @return bool
+	 * @param \DateTime $from
+	 * @param \DateTime $till
+	 * @return TariffHistory|null
 	 */
-	public function isNextMonthHistory(
+	public function findHistoryFromTill(
 		\Sellastica\App\Entity\App $app,
-		\Sellastica\Project\Entity\Project $project
-	): bool
+		\Sellastica\Project\Entity\Project $project,
+		\DateTime $from,
+		\DateTime $till
+	): ?TariffHistory
 	{
-		$nextMonth = new \DateTime();
-		$nextMonth->setDate($nextMonth->format('Y'), $nextMonth->format('m'), 1);
-		$nextMonth->setTime(0, 0, 0);
-		$nextMonth = $nextMonth->add(new \DateInterval('P1M'))->format('Y-m-d');
-
-		return $this->em->getRepository(TariffHistory::class)->existsBy([
+		return $this->em->getRepository(TariffHistory::class)->findOneBy([
 			'projectId' => $project->getId(),
 			'applicationId' => $app->getId(),
-			'validFrom <= "' . $nextMonth . '"',
+			'validFrom <= "' . $from->format('Y-m-d') . '"',
+			"(validTill >= '{$till->format('Y-m-d')}' OR validTill IS NULL)"
 		]);
 	}
 

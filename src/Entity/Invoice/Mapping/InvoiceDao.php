@@ -25,6 +25,17 @@ class InvoiceDao extends \Sellastica\Entity\Mapping\Dao
 	}
 
 	/**
+	 * @param int $projectId
+	 * @return \Sellastica\Crm\Entity\Invoice\Entity\Invoice|null
+	 */
+	public function findLongestUnpaidInvoice(int $projectId): ?\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	{
+		return $this->find(
+			$this->mapper->findLongestUnpaidInvoice($projectId)
+		);
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	protected function getBuilder(

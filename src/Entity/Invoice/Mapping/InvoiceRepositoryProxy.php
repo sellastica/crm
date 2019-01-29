@@ -21,4 +21,9 @@ class InvoiceRepositoryProxy extends RepositoryProxy implements IInvoiceReposito
 	{
 		return $this->getRepository()->findUnpaidInvoices($projectId, $configuration);
 	}
+
+	public function findLongestUnpaidInvoice(int $projectId): ?\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	{
+		return $this->getRepository()->findLongestUnpaidInvoice($projectId);
+	}
 }
