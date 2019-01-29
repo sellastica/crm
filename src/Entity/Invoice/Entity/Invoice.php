@@ -35,6 +35,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $cancelled = false;
 	/** @var float @optional */
 	private $paidAmount = 0;
+	/** @var float @optional */
+	private $priceToPay = 0;
 	/** @var \DateTime|null @optional */
 	private $sent;
 
@@ -208,11 +210,27 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return float
+	 */
+	public function getPriceToPay(): float
+	{
+		return $this->priceToPay;
+	}
+
+	/**
+	 * @param float $priceToPay
+	 */
+	public function setPriceToPay(float $priceToPay): void
+	{
+		$this->priceToPay = $priceToPay;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isPaid(): bool
 	{
-		return ceil($this->paidAmount) >= ceil($this->price->getWithTax());
+		return ceil($this->priceToPay) === ceil($this->paidAmount);
 	}
 
 	/**
@@ -220,8 +238,16 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	 */
 	public function isPartiallyPaid(): bool
 	{
-		return $this->paidAmount > 0
-			&& ceil($this->paidAmount) < ceil($this->price->getWithTax());
+		return ceil($this->paidAmount) > 0
+			&& ceil($this->paidAmount) < ceil($this->priceToPay);
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getPriceToPayLeft(): float
+	{
+		return floor($this->priceToPay - $this->paidAmount);
 	}
 
 	/**
@@ -334,6 +360,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'display' => $this->display,
 				'cancelled' => $this->cancelled,
 				'paidAmount' => $this->paidAmount,
+				'priceToPay' => $this->priceToPay,
 				'sent' => $this->sent,
 			]
 		);

@@ -35,6 +35,8 @@ class InvoiceBuilder implements IBuilder
 	private $cancelled = false;
 	/** @var float */
 	private $paidAmount = 0;
+	/** @var float */
+	private $priceToPay = 0;
 	/** @var \DateTime|null */
 	private $sent;
 
@@ -216,6 +218,24 @@ class InvoiceBuilder implements IBuilder
 	public function paidAmount(float $paidAmount)
 	{
 		$this->paidAmount = $paidAmount;
+		return $this;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getPriceToPay(): float
+	{
+		return $this->priceToPay;
+	}
+
+	/**
+	 * @param float $priceToPay
+	 * @return $this
+	 */
+	public function priceToPay(float $priceToPay)
+	{
+		$this->priceToPay = $priceToPay;
 		return $this;
 	}
 
