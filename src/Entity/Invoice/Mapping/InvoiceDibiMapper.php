@@ -58,7 +58,7 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 	{
 		$resource = $this->getResourceWithIds()
 			->where('projectId = %i', $projectId)
-			->where('CEIL(paidAmount) < CEIL(price + vat)')
+			->where('CEIL(paidAmount) < CEIL(priceToPay)')
 			->where('cancelled = 0')
 			->orderBy('dueDate');
 
