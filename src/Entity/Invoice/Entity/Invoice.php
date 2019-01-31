@@ -39,6 +39,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $priceToPay = 0;
 	/** @var \DateTime|null @optional */
 	private $sent;
+	/** @var bool @optional */
+	private $mustPay = false;
 
 
 	/**
@@ -347,6 +349,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function mustPay(): bool
+	{
+		return $this->mustPay;
+	}
+
+	/**
+	 * @param bool $mustPay
+	 */
+	public function setMustPay(bool $mustPay): void
+	{
+		$this->mustPay = $mustPay;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -370,6 +388,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'paidAmount' => $this->paidAmount,
 				'priceToPay' => $this->priceToPay,
 				'sent' => $this->sent,
+				'mustPay' => $this->mustPay,
 			]
 		);
 	}

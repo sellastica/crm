@@ -39,6 +39,8 @@ class InvoiceBuilder implements IBuilder
 	private $priceToPay = 0;
 	/** @var \DateTime|null */
 	private $sent;
+	/** @var bool */
+	private $mustPay = false;
 
 	/**
 	 * @param int $projectId
@@ -254,6 +256,24 @@ class InvoiceBuilder implements IBuilder
 	public function sent(\DateTime $sent = null)
 	{
 		$this->sent = $sent;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getMustPay(): bool
+	{
+		return $this->mustPay;
+	}
+
+	/**
+	 * @param bool $mustPay
+	 * @return $this
+	 */
+	public function mustPay(bool $mustPay)
+	{
+		$this->mustPay = $mustPay;
 		return $this;
 	}
 

@@ -57,6 +57,25 @@ class InvoiceService
 
 	/**
 	 * @param int $projectId
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
+	 */
+	public function findUnpaidInvoices(
+		int $projectId,
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
+			->findBy([
+				'projectId' => $projectId,
+				'cancelled' => 0,
+				'mustPay' => 1,
+				'CEIL(priceToPay) > CEIL(paidAmount)'
+			], $configuration);
+	}
+
+	/**
+	 * @param int $projectId
 	 * @return \Sellastica\Crm\Entity\Invoice\Entity\Invoice|null
 	 */
 	public function findLongestUnpaidInvoice(int $projectId): ?\Sellastica\Crm\Entity\Invoice\Entity\Invoice

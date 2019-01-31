@@ -40,7 +40,7 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 			->where('projectId = %i', $projectId)
 			->where('cancelled = 0')
 			->where('(display = 1 OR (FLOOR(priceToPay - paidAmount) > 0 AND dueDate < %d))', new \DateTime(
-				sprintf('-%s days', \Sellastica\Project\Service\ProjectService::SUSPEND_AFTER_DAYS))
+				sprintf('-%s days', \Sellastica\Project\Entity\Project::SUSPEND_AFTER_DAYS))
 			);
 
 		if ($configuration) {
@@ -60,6 +60,7 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 			->where('projectId = %i', $projectId)
 			->where('CEIL(paidAmount) < CEIL(priceToPay)')
 			->where('cancelled = 0')
+			->where('mustPay = 1')
 			->orderBy('dueDate');
 
 		return $resource->fetchSingle();
