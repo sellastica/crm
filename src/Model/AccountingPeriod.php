@@ -45,6 +45,7 @@ class AccountingPeriod
 	/**
 	 * @param string $period
 	 * @return AccountingPeriod
+	 * @throws \InvalidArgumentException
 	 */
 	public static function from(string $period): AccountingPeriod
 	{
