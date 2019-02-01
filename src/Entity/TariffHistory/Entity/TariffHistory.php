@@ -178,6 +178,11 @@ class TariffHistory extends \Sellastica\Entity\Entity\AbstractEntity
 		return !isset($this->accountingPeriod);
 	}
 
+	public function setFreeOfCharge(): void
+	{
+		$this->accountingPeriod = null;
+	}
+
 	/**
 	 * @return int|null
 	 */
