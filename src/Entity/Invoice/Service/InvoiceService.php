@@ -99,6 +99,16 @@ class InvoiceService
 	}
 
 	/**
+	 * @param string $code
+	 * @return null|\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	 */
+	public function findOneByCode(string $code): ?\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
+			->findOneBy(['code' => $code]);
+	}
+
+	/**
 	 * @param int $projectId
 	 * @param string $code
 	 * @param string $varSymbol
