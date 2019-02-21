@@ -65,4 +65,44 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 
 		return $resource->fetchSingle();
 	}
+
+	/**
+	 * @param \Sellastica\Entity\Configuration $configuration
+	 * @param \Sellastica\DataGrid\Model\FilterRuleCollection $rules
+	 * @return \Dibi\Fluent
+	 */
+	protected function getAdminResource(
+		\Sellastica\Entity\Configuration $configuration = null,
+		\Sellastica\DataGrid\Model\FilterRuleCollection $rules = null
+	): \Dibi\Fluent
+	{
+		$resource = $this->getResource($configuration);
+
+		if (isset($rules)) {
+			//after_due
+			if ($rules['after_due']) {
+				$resource->where('dueDate <= NOW()');
+			}
+
+			//paid
+			if ($rules['paid']) {
+				if ($rules['paid']->getValue()) {
+					$resource->where('CEIL(priceToPay) <= CEIL(paidAmount)');
+				} else {
+					$resource->where('CEIL(priceToPay) > CEIL(paidAmount)');
+				}
+			}
+
+			//cancelled
+			if ($rules['cancelled']) {
+				if ($rules['cancelled']->getValue()) {
+					$resource->where('cancelled = 1');
+				} else {
+					$resource->where('cancelled = 0');
+				}
+			}
+		}
+
+		return $resource;
+	}
 }
