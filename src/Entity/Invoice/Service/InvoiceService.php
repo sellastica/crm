@@ -68,22 +68,26 @@ class InvoiceService
 	}
 
 	/**
-	 * @param int $projectId
+	 * @param int|null $projectId
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
 	 */
 	public function findUnpaidInvoices(
-		int $projectId,
+		int $projectId = null,
 		\Sellastica\Entity\Configuration $configuration = null
 	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
 	{
+		$filter = [
+			'cancelled' => 0,
+			'mustPay' => 1,
+			'CEIL(priceToPay) > CEIL(paidAmount)'
+		];
+		if ($projectId) {
+			$filter['projectId'] = $projectId;
+		}
+
 		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
-			->findBy([
-				'projectId' => $projectId,
-				'cancelled' => 0,
-				'mustPay' => 1,
-				'CEIL(priceToPay) > CEIL(paidAmount)'
-			], $configuration);
+			->findBy($filter, $configuration);
 	}
 
 	/**
