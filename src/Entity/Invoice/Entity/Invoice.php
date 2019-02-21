@@ -39,6 +39,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $priceToPay = 0;
 	/** @var \DateTime|null @optional */
 	private $sent;
+	/** @var \DateTime|null @optional */
+	private $reminded;
 	/** @var bool @optional */
 	private $mustPay = false;
 
@@ -349,6 +351,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return \DateTime|null
+	 */
+	public function getReminded(): ?\DateTime
+	{
+		return $this->reminded;
+	}
+
+	/**
+	 * @param \DateTime|null $reminded
+	 */
+	public function setReminded(?\DateTime $reminded): void
+	{
+		$this->reminded = $reminded;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function mustPay(): bool
@@ -388,6 +406,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'paidAmount' => $this->paidAmount,
 				'priceToPay' => $this->priceToPay,
 				'sent' => $this->sent,
+				'reminded' => $this->reminded,
 				'mustPay' => $this->mustPay,
 			]
 		);

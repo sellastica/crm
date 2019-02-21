@@ -39,6 +39,8 @@ class InvoiceBuilder implements IBuilder
 	private $priceToPay = 0;
 	/** @var \DateTime|null */
 	private $sent;
+	/** @var \DateTime|null */
+	private $reminded;
 	/** @var bool */
 	private $mustPay = false;
 
@@ -256,6 +258,24 @@ class InvoiceBuilder implements IBuilder
 	public function sent(\DateTime $sent = null)
 	{
 		$this->sent = $sent;
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getReminded()
+	{
+		return $this->reminded;
+	}
+
+	/**
+	 * @param \DateTime|null $reminded
+	 * @return $this
+	 */
+	public function reminded(\DateTime $reminded = null)
+	{
+		$this->reminded = $reminded;
 		return $this;
 	}
 
