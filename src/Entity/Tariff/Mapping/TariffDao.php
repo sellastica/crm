@@ -36,6 +36,7 @@ class TariffDao extends Dao
 	{
 		return TariffBuilder::create(
 			$data->applicationId,
+			$data->level,
 			$data->title,
 			$data->stockQuantityPeriod,
 			$data->priority

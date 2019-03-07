@@ -14,6 +14,8 @@ class TariffBuilder implements IBuilder
 	/** @var int */
 	private $applicationId;
 	/** @var string */
+	private $level;
+	/** @var string */
 	private $title;
 	/** @var int */
 	private $stockQuantityPeriod;
@@ -28,18 +30,21 @@ class TariffBuilder implements IBuilder
 
 	/**
 	 * @param int $applicationId
+	 * @param string $level
 	 * @param string $title
 	 * @param int $stockQuantityPeriod
 	 * @param int $priority
 	 */
 	public function __construct(
 		int $applicationId,
+		string $level,
 		string $title,
 		int $stockQuantityPeriod,
 		int $priority
 	)
 	{
 		$this->applicationId = $applicationId;
+		$this->level = $level;
 		$this->title = $title;
 		$this->stockQuantityPeriod = $stockQuantityPeriod;
 		$this->priority = $priority;
@@ -51,6 +56,14 @@ class TariffBuilder implements IBuilder
 	public function getApplicationId(): int
 	{
 		return $this->applicationId;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLevel(): string
+	{
+		return $this->level;
 	}
 
 	/**
@@ -149,6 +162,7 @@ class TariffBuilder implements IBuilder
 
 	/**
 	 * @param int $applicationId
+	 * @param string $level
 	 * @param string $title
 	 * @param int $stockQuantityPeriod
 	 * @param int $priority
@@ -156,11 +170,12 @@ class TariffBuilder implements IBuilder
 	 */
 	public static function create(
 		int $applicationId,
+		string $level,
 		string $title,
 		int $stockQuantityPeriod,
 		int $priority
 	): self
 	{
-		return new self($applicationId, $title, $stockQuantityPeriod, $priority);
+		return new self($applicationId, $level, $title, $stockQuantityPeriod, $priority);
 	}
 }

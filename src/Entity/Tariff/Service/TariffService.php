@@ -92,32 +92,42 @@ class TariffService
 
 	/**
 	 * @param \Sellastica\App\Entity\App $app
+	 * @param string $level
 	 * @param \Sellastica\Entity\Configuration|null $configuration
-	 * @return \Sellastica\Crm\Entity\Tariff\Entity\TariffCollection
+	 * @return \Sellastica\Crm\Entity\Tariff\Entity\TariffCollection|\Sellastica\Crm\Entity\Tariff\Entity\Tariff[]
 	 */
 	public function getAllTariffs(
 		\Sellastica\App\Entity\App $app,
+		string $level,
 		\Sellastica\Entity\Configuration $configuration = null
 	): \Sellastica\Crm\Entity\Tariff\Entity\TariffCollection
 	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Tariff\Entity\Tariff::class)->findBy(
-			['applicationId' => $app->getId()],
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Tariff\Entity\Tariff::class)->findBy([
+			'applicationId' => $app->getId(),
+			'level' => $level,
+		],
 			$configuration
 		);
 	}
 
 	/**
 	 * @param \Sellastica\App\Entity\App $app
+	 * @param string $level
 	 * @param int $productsCount
 	 * @return \Sellastica\Crm\Entity\Tariff\Entity\Tariff|null
 	 */
 	public function findTariffByProductsCount(
 		\Sellastica\App\Entity\App $app,
+		string $level,
 		int $productsCount
 	): ?\Sellastica\Crm\Entity\Tariff\Entity\Tariff
 	{
-		$tariffs = $this->getAllTariffs($app, \Sellastica\Entity\Configuration::sortBy('products'));
+		$tariffs = $this->getAllTariffs($app, $level, \Sellastica\Entity\Configuration::sortBy('products'));
 		foreach ($tariffs as $tariff) {
+			if ($tariff->getLevel() !== $level) {
+				continue;
+			}
+
 			if ($tariff->getProducts() === 0 && $productsCount === 0) {
 				return $tariff;
 			} elseif ($tariff->getProducts() > $productsCount) {

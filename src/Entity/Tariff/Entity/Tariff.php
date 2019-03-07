@@ -16,6 +16,8 @@ class Tariff extends \Sellastica\Entity\Entity\AbstractEntity
 	/** @var int @required */
 	private $applicationId;
 	/** @var string @required */
+	private $level;
+	/** @var string @required */
 	private $title;
 	/** @var string|null @optional */
 	private $description;
@@ -59,6 +61,22 @@ class Tariff extends \Sellastica\Entity\Entity\AbstractEntity
 	public function getApplication(): \Sellastica\App\Entity\App
 	{
 		return $this->relationService->getApplication();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLevel(): string
+	{
+		return $this->level;
+	}
+
+	/**
+	 * @param string $level
+	 */
+	public function setLevel(string $level): void
+	{
+		$this->level = $level;
 	}
 
 	/**
@@ -188,6 +206,7 @@ class Tariff extends \Sellastica\Entity\Entity\AbstractEntity
 			$this->parentToArray(),
 			[
 				'applicationId' => $this->applicationId,
+				'level' => $this->level,
 				'title' => $this->title,
 				'description' => $this->description,
 				'products' => $this->products,
