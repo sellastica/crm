@@ -98,22 +98,26 @@ class TariffHistoryService
 	 * @param \Sellastica\App\Entity\App $app
 	 * @param \Sellastica\Project\Entity\Project $project
 	 * @param \DateTime $from
-	 * @param \DateTime $till
+	 * @param \DateTime|null $till
 	 * @return TariffHistory|null
 	 */
 	public function findHistoryFromTill(
 		\Sellastica\App\Entity\App $app,
 		\Sellastica\Project\Entity\Project $project,
 		\DateTime $from,
-		\DateTime $till
+		\DateTime $till = null
 	): ?TariffHistory
 	{
-		return $this->em->getRepository(TariffHistory::class)->findOneBy([
+		$filter = [
 			'projectId' => $project->getId(),
 			'applicationId' => $app->getId(),
 			'validFrom <= "' . $from->format('Y-m-d') . '"',
-			"(validTill >= '{$till->format('Y-m-d')}' OR validTill IS NULL)"
-		]);
+		];
+		if ($till) {
+			$filter[] = "(validTill >= '{$till->format('Y-m-d')}' OR validTill IS NULL)";
+		}
+
+		return $this->em->getRepository(TariffHistory::class)->findOneBy($filter);
 	}
 
 	/**
