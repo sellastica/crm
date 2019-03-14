@@ -25,6 +25,8 @@ class InvoiceBuilder implements IBuilder
 	private $externalId;
 	/** @var \DateTime|null */
 	private $paymentDate;
+	/** @var float */
+	private $exchangeRate = 1;
 	/** @var string|null */
 	private $externalUrl;
 	/** @var bool */
@@ -132,6 +134,24 @@ class InvoiceBuilder implements IBuilder
 	public function paymentDate(\DateTime $paymentDate = null)
 	{
 		$this->paymentDate = $paymentDate;
+		return $this;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getExchangeRate(): float
+	{
+		return $this->exchangeRate;
+	}
+
+	/**
+	 * @param float $exchangeRate
+	 * @return $this
+	 */
+	public function exchangeRate(float $exchangeRate = 1)
+	{
+		$this->exchangeRate = $exchangeRate;
 		return $this;
 	}
 

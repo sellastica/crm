@@ -23,6 +23,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $paymentDate;
 	/** @var \Sellastica\Price\Price @required */
 	private $price;
+	/** @var float @optional */
+	private $exchangeRate = 1;
 	/** @var int @required */
 	private $externalId;
 	/** @var string|null @optional */
@@ -383,6 +385,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return float
+	 */
+	public function getExchangeRate(): float
+	{
+		return $this->exchangeRate;
+	}
+
+	/**
+	 * @param float $exchangeRate
+	 */
+	public function setExchangeRate(float $exchangeRate): void
+	{
+		$this->exchangeRate = $exchangeRate;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -396,6 +414,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'dueDate' => $this->dueDate,
 				'paymentDate' => $this->paymentDate,
 				'price' => $this->price->getDefaultPrice(),
+				'exchangeRate' => $this->exchangeRate,
 				'vat' => $this->price->getTax(),
 				'currency' => $this->price->getCurrency()->getCode(),
 				'externalId' => $this->externalId,
