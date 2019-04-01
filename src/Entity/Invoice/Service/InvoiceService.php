@@ -54,6 +54,16 @@ class InvoiceService
 	}
 
 	/**
+	 * @param array $filter
+	 * @return int
+	 */
+	public function findCountBy(array $filter): int
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
+			->findCountBy($filter);
+	}
+
+	/**
 	 * @param int $projectId
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
