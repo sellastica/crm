@@ -35,6 +35,20 @@ class TariffHistoryService
 	}
 
 	/**
+	 * @param array $filter
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return TariffHistory|null
+	 */
+	public function findOneBy(
+		array $filter,
+		\Sellastica\Entity\Configuration $configuration = null
+	): ?TariffHistory
+	{
+		return $this->em->getRepository(TariffHistory::class)
+			->findOneBy($filter, $configuration);
+	}
+
+	/**
 	 * @param \Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff
 	 * @param \Sellastica\Project\Entity\Project $project
 	 * @param string $title
