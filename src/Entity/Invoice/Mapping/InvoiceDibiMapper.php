@@ -39,9 +39,9 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 		$resource = $this->getResourceWithIds($configuration)
 			->where('projectId = %i', $projectId)
 			->where('cancelled = 0')
-			->where('(display = 1 OR (FLOOR(priceToPay - paidAmount) > 0 AND dueDate < %d))', new \DateTime(
-				sprintf('-%s days', \Sellastica\Project\Entity\Project::SUSPEND_AFTER_DAYS))
-			);
+			->where('proforma = 1')
+			->where('FLOOR(priceToPay - paidAmount) > 0')
+			->where('(display = 1 OR dueDate < %d)', new \DateTime());
 
 		if ($configuration) {
 			$this->setSorter($resource, $configuration->getSorter());
