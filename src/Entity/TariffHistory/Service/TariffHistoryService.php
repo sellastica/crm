@@ -49,6 +49,15 @@ class TariffHistoryService
 	}
 
 	/**
+	 * @param array $filter
+	 * @return bool
+	 */
+	public function existsBy(array $filter): bool
+	{
+		return $this->em->getRepository(TariffHistory::class)->existsBy($filter);
+	}
+
+	/**
 	 * @param \Sellastica\Crm\Entity\Tariff\Entity\Tariff $tariff
 	 * @param \Sellastica\Project\Entity\Project $project
 	 * @param string $title

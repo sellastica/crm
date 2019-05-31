@@ -200,6 +200,14 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getOnlinePaymentUrl(): string
+	{
+		return "https://klient.napojse.cz/pay/invoice/{$this->code}-{$this->varSymbol}";
+	}
+
+	/**
 	 * @return \DateTime|null
 	 */
 	public function getPaymentDate(): ?\DateTime

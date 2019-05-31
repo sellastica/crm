@@ -55,6 +55,15 @@ class InvoiceService
 
 	/**
 	 * @param array $filter
+	 * @return bool
+	 */
+	public function existsBy(array $filter): bool
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)->existsBy($filter);
+	}
+
+	/**
+	 * @param array $filter
 	 * @return int
 	 */
 	public function findCountBy(array $filter): int
