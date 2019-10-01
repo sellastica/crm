@@ -140,7 +140,10 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	 */
 	public function getDaysCountAfterDueDate(): int
 	{
-		return $this->dueDate->diff(new \DateTime())->format('%a');
+		$interval = $this->dueDate->diff(new \DateTime());
+		return $interval->invert
+			? -$interval->days
+			: $interval->days;
 	}
 
 	/**

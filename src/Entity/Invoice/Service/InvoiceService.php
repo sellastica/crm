@@ -173,4 +173,20 @@ class InvoiceService
 
 		return $invoice;
 	}
+
+	/**
+	 * @param int $projectId
+	 * @param \DateTimeImmutable $from
+	 * @param \DateTimeImmutable $till
+	 * @return float
+	 */
+	public function getPaidAmountSummary(
+		int $projectId,
+		\DateTimeImmutable $from,
+		\DateTimeImmutable $till
+	): float
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
+			->getPaidAmountSummary($projectId, $from, $till);
+	}
 }

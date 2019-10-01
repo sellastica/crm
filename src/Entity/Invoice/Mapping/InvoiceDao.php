@@ -11,8 +11,23 @@ class InvoiceDao extends \Sellastica\Entity\Mapping\Dao
 
 	/**
 	 * @param int $projectId
+	 * @param \DateTimeImmutable $from
+	 * @param \DateTimeImmutable $till
+	 * @return float
+	 */
+	public function getPaidAmountSummary(
+		int $projectId,
+		\DateTimeImmutable $from,
+		\DateTimeImmutable $till
+	): float
+	{
+		return $this->mapper->getPaidAmountSummary($projectId, $from, $till);
+	}
+
+	/**
+	 * @param int $projectId
 	 * @param \Sellastica\Entity\Configuration|null $configuration
-	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
+	 * @return \Sellastica\Entity\Entity\EntityCollection|\Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
 	 */
 	public function findInvoicesToDisplay(
 		int $projectId,

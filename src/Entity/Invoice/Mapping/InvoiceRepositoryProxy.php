@@ -14,6 +14,15 @@ class InvoiceRepositoryProxy extends RepositoryProxy implements IInvoiceReposito
 	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesRepositoryProxy;
 
 
+	public function getPaidAmountSummary(
+		int $projectId,
+		\DateTimeImmutable $from,
+		\DateTimeImmutable $till
+	): float
+	{
+		return $this->getRepository()->getPaidAmountSummary($projectId, $from, $till);
+	}
+
 	public function findInvoicesToDisplay(
 		int $projectId,
 		\Sellastica\Entity\Configuration $configuration = null

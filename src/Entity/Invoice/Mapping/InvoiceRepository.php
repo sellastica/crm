@@ -15,6 +15,21 @@ class InvoiceRepository extends Repository implements IInvoiceRepository
 
 	/**
 	 * @param int $projectId
+	 * @param \DateTimeImmutable $from
+	 * @param \DateTimeImmutable $till
+	 * @return float
+	 */
+	public function getPaidAmountSummary(
+		int $projectId,
+		\DateTimeImmutable $from,
+		\DateTimeImmutable $till
+	): float
+	{
+		return $this->dao->getPaidAmountSummary($projectId, $from, $till);
+	}
+
+	/**
+	 * @param int $projectId
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
 	 */

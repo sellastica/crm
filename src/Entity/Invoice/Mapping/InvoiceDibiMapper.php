@@ -67,6 +67,27 @@ class InvoiceDibiMapper extends \Sellastica\Entity\Mapping\DibiMapper
 	}
 
 	/**
+	 * @param int $projectId
+	 * @param \DateTimeImmutable $from
+	 * @param \DateTimeImmutable $till
+	 * @return float
+	 */
+	public function getPaidAmountSummary(
+		int $projectId,
+		\DateTimeImmutable $from,
+		\DateTimeImmutable $till
+	): float
+	{
+		return (float)$this->database->select('SUM(paidAmount * exchangeRate)')
+			->from($this->getTableName(true))
+			->where('proforma = 1')
+			->where('projectId = %i', $projectId)
+			->where('paymentDate >= %d', $from)
+			->where('paymentDate <= %d', $till)
+			->fetchSingle();
+	}
+
+	/**
 	 * @param \Sellastica\Entity\Configuration $configuration
 	 * @param \Sellastica\DataGrid\Model\FilterRuleCollection $rules
 	 * @return \Dibi\Fluent
