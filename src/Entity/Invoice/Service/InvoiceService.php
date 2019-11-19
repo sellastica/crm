@@ -134,6 +134,16 @@ class InvoiceService
 	}
 
 	/**
+	 * @param int $externalId
+	 * @return null|\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	 */
+	public function findOneByExternalId(int $externalId): ?\Sellastica\Crm\Entity\Invoice\Entity\Invoice
+	{
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Invoice\Entity\Invoice::class)
+			->findOneBy(['externalId' => $externalId]);
+	}
+
+	/**
 	 * @param string $code
 	 * @return null|\Sellastica\Crm\Entity\Invoice\Entity\Invoice
 	 */
