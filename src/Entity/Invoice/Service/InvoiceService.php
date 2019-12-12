@@ -8,7 +8,6 @@ class InvoiceService
 
 
 	/**
-	 * InvoiceService constructor.
 	 * @param \Sellastica\Entity\EntityManager $em
 	 */
 	public function __construct(
