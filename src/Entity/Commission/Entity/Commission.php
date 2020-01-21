@@ -12,11 +12,15 @@ class Commission extends \Sellastica\Entity\Entity\AbstractEntity
 	/** @var int @required */
 	private $invoiceId;
 	/** @var int @required */
+	private $projectId;
+	/** @var int @required */
 	private $b2bProjectId;
 	/** @var int @required */
 	private $percentCommission;
 	/** @var \Sellastica\Price\Price @required */
 	private $commission;
+	/** @var float @required */
+	private $exchangeRate;
 	/** @var \DateTime @optional */
 	private $commissionPaid;
 
@@ -51,6 +55,22 @@ class Commission extends \Sellastica\Entity\Entity\AbstractEntity
 	public function setInvoiceId(int $invoiceId): void
 	{
 		$this->invoiceId = $invoiceId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getProjectId(): int
+	{
+		return $this->projectId;
+	}
+
+	/**
+	 * @param int $projectId
+	 */
+	public function setProjectId(int $projectId): void
+	{
+		$this->projectId = $projectId;
 	}
 
 	/**
@@ -102,6 +122,22 @@ class Commission extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return float
+	 */
+	public function getExchangeRate(): float
+	{
+		return $this->exchangeRate;
+	}
+
+	/**
+	 * @param float $exchangeRate
+	 */
+	public function setExchangeRate(float $exchangeRate): void
+	{
+		$this->exchangeRate = $exchangeRate;
+	}
+
+	/**
 	 * @return \DateTime
 	 */
 	public function getCommissionPaid(): \DateTime
@@ -126,9 +162,12 @@ class Commission extends \Sellastica\Entity\Entity\AbstractEntity
 			$this->parentToArray(),
 			[
 				'invoiceId' => $this->invoiceId,
+				'projectId' => $this->projectId,
 				'b2bProjectId' => $this->b2bProjectId,
 				'percentCommission' => $this->percentCommission,
 				'commission' => $this->commission->getWithoutTax(),
+				'currency' => $this->commission->getCurrency()->getCode(),
+				'exchangeRate' => $this->exchangeRate,
 				'commissionPaid' => $this->commissionPaid,
 			]
 		);

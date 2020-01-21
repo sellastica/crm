@@ -14,31 +14,41 @@ class CommissionBuilder implements IBuilder
 	/** @var int */
 	private $invoiceId;
 	/** @var int */
+	private $projectId;
+	/** @var int */
 	private $b2bProjectId;
 	/** @var int */
 	private $percentCommission;
 	/** @var \Sellastica\Price\Price */
 	private $commission;
+	/** @var float */
+	private $exchangeRate;
 	/** @var \DateTime */
 	private $commissionPaid;
 
 	/**
 	 * @param int $invoiceId
+	 * @param int $projectId
 	 * @param int $b2bProjectId
 	 * @param int $percentCommission
 	 * @param \Sellastica\Price\Price $commission
+	 * @param float $exchangeRate
 	 */
 	public function __construct(
 		int $invoiceId,
+		int $projectId,
 		int $b2bProjectId,
 		int $percentCommission,
-		\Sellastica\Price\Price $commission
+		\Sellastica\Price\Price $commission,
+		float $exchangeRate
 	)
 	{
 		$this->invoiceId = $invoiceId;
+		$this->projectId = $projectId;
 		$this->b2bProjectId = $b2bProjectId;
 		$this->percentCommission = $percentCommission;
 		$this->commission = $commission;
+		$this->exchangeRate = $exchangeRate;
 	}
 
 	/**
@@ -47,6 +57,14 @@ class CommissionBuilder implements IBuilder
 	public function getInvoiceId(): int
 	{
 		return $this->invoiceId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getProjectId(): int
+	{
+		return $this->projectId;
 	}
 
 	/**
@@ -71,6 +89,14 @@ class CommissionBuilder implements IBuilder
 	public function getCommission(): \Sellastica\Price\Price
 	{
 		return $this->commission;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getExchangeRate(): float
+	{
+		return $this->exchangeRate;
 	}
 
 	/**
@@ -109,18 +135,22 @@ class CommissionBuilder implements IBuilder
 
 	/**
 	 * @param int $invoiceId
+	 * @param int $projectId
 	 * @param int $b2bProjectId
 	 * @param int $percentCommission
 	 * @param \Sellastica\Price\Price $commission
+	 * @param float $exchangeRate
 	 * @return self
 	 */
 	public static function create(
 		int $invoiceId,
+		int $projectId,
 		int $b2bProjectId,
 		int $percentCommission,
-		\Sellastica\Price\Price $commission
+		\Sellastica\Price\Price $commission,
+		float $exchangeRate
 	): self
 	{
-		return new self($invoiceId, $b2bProjectId, $percentCommission, $commission);
+		return new self($invoiceId, $projectId, $b2bProjectId, $percentCommission, $commission, $exchangeRate);
 	}
 }

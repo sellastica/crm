@@ -16,8 +16,14 @@ class CommissionDao extends \Sellastica\Entity\Mapping\Dao
 		$second = null
 	): \Sellastica\Entity\IBuilder
 	{
-		return \Sellastica\Crm\Entity\Commission\Entity\CommissionBuilder::create($data->invoiceId, $data->b2bProjectId, $data->percentCommission, $data->commission)
-			->hydrate($data);
+		return \Sellastica\Crm\Entity\Commission\Entity\CommissionBuilder::create(
+			$data->invoiceId,
+			$data->projectId,
+			$data->b2bProjectId,
+			$data->percentCommission,
+			$data->commission,
+			$data->exchangeRate
+		)->hydrate($data);
 	}
 
 	/**

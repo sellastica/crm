@@ -54,15 +54,6 @@ class CommissionService
 
 	/**
 	 * @param array $filter
-	 * @return bool
-	 */
-	public function existsBy(array $filter): bool
-	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)->existsBy($filter);
-	}
-
-	/**
-	 * @param array $filter
 	 * @return int
 	 */
 	public function findCountBy(array $filter): int
@@ -72,124 +63,42 @@ class CommissionService
 	}
 
 	/**
-	 * @param int $projectId
-	 * @param \Sellastica\Entity\Configuration|null $configuration
-	 * @return \Sellastica\Crm\Entity\Commission\Entity\CommissionCollection|\Sellastica\Crm\Entity\Commission\Entity\Commission[]
-	 */
-	public function findCommissionsToDisplay(
-		int $projectId,
-		\Sellastica\Entity\Configuration $configuration = null
-	): \Sellastica\Crm\Entity\Commission\Entity\CommissionCollection
-	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)
-			->findCommissionsToDisplay($projectId, $configuration);
-	}
-
-	/**
-	 * @param int|null $projectId
-	 * @param \Sellastica\Entity\Configuration|null $configuration
-	 * @return \Sellastica\Crm\Entity\Commission\Entity\CommissionCollection|\Sellastica\Crm\Entity\Commission\Entity\Commission[]
-	 */
-	public function findUnpaidCommissions(
-		int $projectId = null,
-		\Sellastica\Entity\Configuration $configuration = null
-	): \Sellastica\Crm\Entity\Commission\Entity\CommissionCollection
-	{
-		$filter = [
-			'cancelled' => 0,
-			'mustPay' => 1,
-			'CEIL(priceToPay) > CEIL(paidAmount)',
-		];
-		if ($projectId) {
-			$filter['projectId'] = $projectId;
-		}
-
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)
-			->findBy($filter, $configuration);
-	}
-
-	/**
-	 * @param int $projectId
-	 * @return \Sellastica\Crm\Entity\Commission\Entity\Commission|null
-	 */
-	public function findLongestUnpaidCommission(int $projectId): ?\Sellastica\Crm\Entity\Commission\Entity\Commission
-	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)
-			->findLongestUnpaidCommission($projectId);
-	}
-
-	/**
 	 * @param array $filter
-	 * @param \Sellastica\Entity\Configuration|null $configuration
-	 * @return null|\Sellastica\Crm\Entity\Commission\Entity\Commission
+	 * @return bool
 	 */
-	public function findOneBy(
-		array $filter,
-		\Sellastica\Entity\Configuration $configuration = null
-	): ?\Sellastica\Crm\Entity\Commission\Entity\Commission
+	public function existsBy(array $filter): bool
 	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)
-			->findOneBy($filter, $configuration);
-	}
-
-	/**
-	 * @param int $externalId
-	 * @return null|\Sellastica\Crm\Entity\Commission\Entity\Commission
-	 */
-	public function findOneByExternalId(int $externalId): ?\Sellastica\Crm\Entity\Commission\Entity\Commission
-	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)
-			->findOneBy(['externalId' => $externalId]);
-	}
-
-	/**
-	 * @param string $code
-	 * @return null|\Sellastica\Crm\Entity\Commission\Entity\Commission
-	 */
-	public function findOneByCode(string $code): ?\Sellastica\Crm\Entity\Commission\Entity\Commission
-	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)
-			->findOneBy(['code' => $code]);
+		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)->existsBy($filter);
 	}
 
 	/**
 	 * @param int $invoiceId
+	 * @param int $projectId
 	 * @param int $b2bProjectId
 	 * @param int $percentCommission
 	 * @param \Sellastica\Price\Price $commission
+	 * @param float $exchangeRate
 	 * @return \Sellastica\Crm\Entity\Commission\Entity\Commission
 	 */
 	public function create(
 		int $invoiceId,
+		int $projectId,
 		int $b2bProjectId,
 		int $percentCommission,
-		\Sellastica\Price\Price $commission
+		\Sellastica\Price\Price $commission,
+		float $exchangeRate
 	): \Sellastica\Crm\Entity\Commission\Entity\Commission
 	{
 		$commission = \Sellastica\Crm\Entity\Commission\Entity\CommissionBuilder::create(
 			$invoiceId,
+			$projectId,
 			$b2bProjectId,
 			$percentCommission,
-			$commission
+			$commission,
+			$exchangeRate
 		)->build();
 		$this->em->persist($commission);
 
 		return $commission;
-	}
-
-	/**
-	 * @param int $projectId
-	 * @param \DateTimeImmutable $from
-	 * @param \DateTimeImmutable $till
-	 * @return float
-	 */
-	public function getPaidAmountSummary(
-		int $projectId,
-		\DateTimeImmutable $from,
-		\DateTimeImmutable $till
-	): float
-	{
-		return $this->em->getRepository(\Sellastica\Crm\Entity\Commission\Entity\Commission::class)
-			->getPaidAmountSummary($projectId, $from, $till);
 	}
 }
