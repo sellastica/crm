@@ -47,6 +47,8 @@ class InvoiceBuilder implements IBuilder
 	private $lastTimeReminded;
 	/** @var bool */
 	private $mustPay = false;
+	/** @var \DateTime|null */
+	private $accountingPeriod;
 
 	/**
 	 * @param int $projectId
@@ -334,6 +336,24 @@ class InvoiceBuilder implements IBuilder
 	public function mustPay(bool $mustPay)
 	{
 		$this->mustPay = $mustPay;
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getAccountingPeriod()
+	{
+		return $this->accountingPeriod;
+	}
+
+	/**
+	 * @param \DateTime|null $accountingPeriod
+	 * @return $this
+	 */
+	public function accountingPeriod(\DateTime $accountingPeriod = null)
+	{
+		$this->accountingPeriod = $accountingPeriod;
 		return $this;
 	}
 

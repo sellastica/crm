@@ -47,6 +47,8 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	private $lastTimeReminded;
 	/** @var bool @optional */
 	private $mustPay = false;
+	/** @var \DateTime|null @optional */
+	private $accountingPeriod;
 
 
 	/**
@@ -430,6 +432,22 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 	}
 
 	/**
+	 * @return \DateTime|null
+	 */
+	public function getAccountingPeriod(): ?\DateTime
+	{
+		return $this->accountingPeriod;
+	}
+
+	/**
+	 * @param \DateTime|null $accountingPeriod
+	 */
+	public function setAccountingPeriod(?\DateTime $accountingPeriod): void
+	{
+		$this->accountingPeriod = $accountingPeriod;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -457,6 +475,7 @@ class Invoice extends \Sellastica\Entity\Entity\AbstractEntity
 				'reminded' => $this->reminded,
 				'lastTimeReminded' => $this->lastTimeReminded,
 				'mustPay' => $this->mustPay,
+				'accountingPeriod' => $this->accountingPeriod,
 			]
 		);
 	}
